@@ -3,7 +3,6 @@ import javax.swing.SwingUtilities;
 import controller.ReservationController;
 import model.Washer;
 import view.AddReservationView;
-import view.WasherView;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,7 +15,6 @@ public class Main {
         manager.addWasher(new Washer("Lavatrice 3", true));
 
         // Avvia l'interfaccia utente
-        // SwingUtilities.invokeLater(() -> new AddReservationView(manager));
-        SwingUtilities.invokeLater(() -> new WasherView());
+        SwingUtilities.invokeLater(() -> new AddReservationView(manager));
     }
 }
