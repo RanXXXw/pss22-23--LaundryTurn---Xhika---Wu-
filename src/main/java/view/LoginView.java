@@ -1,14 +1,11 @@
 package view;
 
 import controller.UserController;
-import controller.ReservationController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-//import controller.ReservationController;
 
 public class LoginView extends JFrame {
     private JTextField usernameField;
@@ -16,7 +13,11 @@ public class LoginView extends JFrame {
     private JButton loginButton;
     private JButton registerButton;
 
-    public LoginView(UserController userController) {
+    // Add a Runnable to handle navigation to the reservation view
+    private final Runnable showReservationView;
+
+    public LoginView(UserController userController, Runnable showReservationView) {
+        this.showReservationView = showReservationView; // Initialize the Runnable
         setTitle("Login/Registrazione");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,6 +46,7 @@ public class LoginView extends JFrame {
 
         add(panel);
 
+        // Login button action listener
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,13 +56,14 @@ public class LoginView extends JFrame {
                 if (userController.validateUser(username, password)) {
                     JOptionPane.showMessageDialog(LoginView.this, "Login effettuato!");
                     dispose(); // Close the login window
-                    // Main.showReservationView(new ReservationController());
+                    showReservationView.run(); // Navigate to the reservation view
                 } else {
                     JOptionPane.showMessageDialog(LoginView.this, "Credenziali errate.");
                 }
             }
         });
 
+        // Register button action listener
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,7 +74,7 @@ public class LoginView extends JFrame {
                     JOptionPane.showMessageDialog(LoginView.this, "Registrazione completata!");
                 } else {
                     JOptionPane.showMessageDialog(LoginView.this,
-                            "Errore nella registrazione (username gia esistente?).");
+                            "Errore nella registrazione (username già esistente?).");
                 }
             }
         });

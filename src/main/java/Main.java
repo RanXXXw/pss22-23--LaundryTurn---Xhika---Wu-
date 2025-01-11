@@ -22,24 +22,23 @@ public class Main {
         manager.addWasher(new Washer("Lavatrice 2", true));
         manager.addWasher(new Washer("Lavatrice 3", true));
 
-        // avvia LoginView
-        SwingUtilities.invokeLater(() -> {
-            LoginView loginView = new LoginView(userController);
-            loginView.setVisible(true);
-        });
-    }
+        /*
+         * // Avvia l'interfaccia utente
+         * SwingUtilities.invokeLater(() -> new AddReservationView(manager));
+         * }
+         * }
+         */
 
-    // Avvia l'interfaccia reservation dopo il login
-    public static void showReservationView(ReservationController manager) {
-        SwingUtilities.invokeLater(() -> {
+        // Runnable to show reservation view
+        Runnable showReservationView = () -> SwingUtilities.invokeLater(() -> {
             AddReservationView reservationView = new AddReservationView(manager);
             reservationView.setVisible(true);
         });
+
+        // Launch LoginView and pass the navigation logic
+        SwingUtilities.invokeLater(() -> {
+            LoginView loginView = new LoginView(userController, showReservationView);
+            loginView.setVisible(true);
+        });
     }
 }
-/*
- * // Avvia l'interfaccia utente
- * SwingUtilities.invokeLater(() -> new AddReservationView(manager));
- * }
- * }
- */
