@@ -1,31 +1,42 @@
 package controller;
 
 import model.User;
-import view.AvailabilityView;
+//import view.LoginView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserController {
-    private User model;
-    private AvailabilityView view;
+    private List<User> users;
 
     // Inizializzazione controller
-    public UserController(User model, AvailabilityView view) {
-        this.model = model;
-        this.view = view;
+    public UserController() {
+        this.users = new ArrayList<>();
     }
 
-    // aggiorno i dati
-    public void updateUser(String name, String email) {
-        // nuovi valori
-        model.setName(name);
-        model.setEmail(email);
-        view.updateView(model);
+    // registrazione nuovo user
+    public boolean registerUser(String username, String password) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return false; // User already exists
+            }
+        }
+        users.add(new User(username, password));
+        return true;
     }
 
-    // public boolean authenticate(String string, String string2) {
-    // return false;
-    // }
-    public boolean authenticate(String username, String password) {
-        return model.getName().equals(username) && model.getEmail().equals(password);
+    // user login
+    public boolean validateUser(String username, String password) {
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
     }
 
+    // add user for testing
+    public void addUserForTesting(String username, String password) {
+        users.add(new User(username, password));
+    }
 }
