@@ -12,7 +12,9 @@ public class Main {
         // Initialize controllers
         UserController userController = new UserController();
 
-        userController.addUserForTesting("testUser", "testPassword");
+        // Aggiungi un utente di test (puoi eliminarlo una volta che hai il sistema di
+        // login funzionante)
+        userController.registerUser("testUser", "testPassword");
 
         // Inizializza il gestore delle prenotazioni
         ReservationController manager = new ReservationController();
@@ -29,16 +31,18 @@ public class Main {
          * }
          */
 
-        // Runnable to show reservation view
-        Runnable showReservationView = () -> SwingUtilities.invokeLater(() -> {
+        // Avvia LoginView
+        SwingUtilities.invokeLater(() -> {
+            LoginView loginView = new LoginView(userController, () -> showReservationView(manager));
+            loginView.setVisible(true);
+        });
+    }
+
+    // Avvia l'interfaccia reservation dopo il login
+    public static void showReservationView(ReservationController manager) {
+        SwingUtilities.invokeLater(() -> {
             AddReservationView reservationView = new AddReservationView(manager);
             reservationView.setVisible(true);
-        });
-
-        // Launch LoginView and pass the navigation logic
-        SwingUtilities.invokeLater(() -> {
-            LoginView loginView = new LoginView(userController, showReservationView);
-            loginView.setVisible(true);
         });
     }
 }

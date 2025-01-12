@@ -1,7 +1,6 @@
 package view;
 
 import controller.UserController;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,11 +12,7 @@ public class LoginView extends JFrame {
     private JButton loginButton;
     private JButton registerButton;
 
-    // Add a Runnable to handle navigation to the reservation view
-    private final Runnable showReservationView;
-
     public LoginView(UserController userController, Runnable showReservationView) {
-        this.showReservationView = showReservationView; // Initialize the Runnable
         setTitle("Login/Registrazione");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,7 +51,9 @@ public class LoginView extends JFrame {
                 if (userController.validateUser(username, password)) {
                     JOptionPane.showMessageDialog(LoginView.this, "Login effettuato!");
                     dispose(); // Close the login window
-                    showReservationView.run(); // Navigate to the reservation view
+                    if (showReservationView != null) {
+                        showReservationView.run(); // Execute the reservation view
+                    }
                 } else {
                     JOptionPane.showMessageDialog(LoginView.this, "Credenziali errate.");
                 }
@@ -74,7 +71,7 @@ public class LoginView extends JFrame {
                     JOptionPane.showMessageDialog(LoginView.this, "Registrazione completata!");
                 } else {
                     JOptionPane.showMessageDialog(LoginView.this,
-                            "Errore nella registrazione (username già esistente?).");
+                            "Errore nella registrazione (username già esistente).");
                 }
             }
         });
