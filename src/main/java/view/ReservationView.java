@@ -25,7 +25,7 @@ import controller.ReservationController;
 import model.Reservation;
 import model.Washer;
 
-public class AddReservationView extends JFrame {
+public class ReservationView extends JFrame {
     private ReservationController manager;
     private JComboBox<String> washerDropdown;
     private JComboBox<String> timeSlotDropdown;
@@ -34,7 +34,7 @@ public class AddReservationView extends JFrame {
     private JPanel cards; // Questo è il contenitore principale con CardLayout
     private CardLayout cardLayout; // Layout che consente di cambiare "pagine"
 
-    public AddReservationView(ReservationController manager) {
+    public ReservationView(ReservationController manager) {
         this.manager = manager;
         setTitle("Gestione Prenotazioni Lavatrici");
         setSize(500, 400);
@@ -134,22 +134,48 @@ public class AddReservationView extends JFrame {
         // Lista delle prenotazioni
         JList<String> reservationList = new JList<>();
         DefaultListModel<String> model = new DefaultListModel<>();
-        reservationList.setModel(model); // Imposta il modello inizialmente vuoto
+        reservationList.setModel(model);
 
         JScrollPane listScrollPane = new JScrollPane(reservationList);
         panel.add(listScrollPane, BorderLayout.CENTER);
 
+        // Pannello inferiore con pulsanti
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+
         // Pulsante per tornare alla schermata principale
         JButton backButton = new JButton("Torna alla Prenotazione");
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cards, "Reservation"); // Torna alla schermata di prenotazione
+        backButton.addActionListener(e -> cardLayout.show(cards, "Reservation"));
+        buttonPanel.add(backButton);
+
+        // Pulsante per cancellare la prenotazione
+        JButton deleteButton = new JButton("Cancella Prenotazione");
+        deleteButton.setEnabled(false); // Disabilitato inizialmente
+        deleteButton.addActionListener(e -> {
+            int selectedIndex = reservationList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                // Mostra una conferma prima di cancellare
+                int confirm = javax.swing.JOptionPane.showConfirmDialog(
+                        this,
+                        "Sei sicuro di voler cancellare la prenotazione selezionata?",
+                        "Conferma Cancellazione",
+                        javax.swing.JOptionPane.YES_NO_OPTION);
+
+                if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                    Reservation reservation = manager.getReservations().get(selectedIndex);
+                    manager.cancelReservation(reservation);
+                    updateReservationList(); // Aggiorna la lista dopo la cancellazione
+                    javax.swing.JOptionPane.showMessageDialog(this, "Prenotazione cancellata con successo.");
+                }
             }
         });
+        buttonPanel.add(deleteButton);
 
-        panel.add(backButton, BorderLayout.SOUTH);
+        // Abilita il pulsante di cancellazione solo se c'è una selezione
+        reservationList.addListSelectionListener(e -> {
+            deleteButton.setEnabled(!reservationList.isSelectionEmpty());
+        });
 
+        panel.add(buttonPanel, BorderLayout.SOUTH);
         return panel;
     }
 
