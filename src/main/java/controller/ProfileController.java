@@ -3,21 +3,22 @@ package controller;
 import model.User;
 
 public class ProfileController {
-    private User user;
+    private User loggedInUser;
+    private UserController userController;
 
-    public ProfileController(User user) {
-        this.user = user;
+    // costruttore
+    public ProfileController(User loggedInUser, UserController userController) {
+        this.loggedInUser = loggedInUser;
+        this.userController = userController;
     }
 
-    // Ottieni l'utente
-    public User getUser() {
-        return user;
+    // Getter per l'utente loggato
+    public User getLoggedInUser() {
+        return loggedInUser;
     }
 
-    // Aggiorna i dati dell'utente
-    public void updateUser(String username, String password, String email) {
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setEmail(email);
+    // Getter per UserController
+    public UserController getUserController() {
+        return userController;
     }
 }

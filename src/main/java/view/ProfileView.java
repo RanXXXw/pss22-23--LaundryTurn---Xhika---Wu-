@@ -1,75 +1,77 @@
 package view;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import controller.ProfileController;
-import model.User;
+import controller.UserController;
 
 public class ProfileView extends JFrame {
-    private ProfileController profileController;
-
-    private JLabel usernameLabel;
-    private JLabel passwordLabel;
-    private JLabel emailLabel;
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JTextField emailField;
-    private JButton updateButton;
-
-    public ProfileView(ProfileController profileController) {
-        this.profileController = profileController;
-
-        // Impostazione del layout
-        setTitle("Gestione Profilo");
-        setSize(400, 300);
-        setLocationRelativeTo(null);
+    public ProfileView(ProfileController profileController, UserController userController) {
+        // Imposta titolo e layout
+        setTitle("Profilo Utente");
+        setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new GridLayout(7, 1));
 
-        // Inizializza i componenti
-        usernameLabel = new JLabel("Username:");
-        passwordLabel = new JLabel("Password:");
-        emailLabel = new JLabel("Email:");
+        // Ottieni l'utente loggato
+        var loggedInUser = profileController.getLoggedInUser();
 
-        usernameField = new JTextField(20);
-        passwordField = new JPasswordField(20);
-        emailField = new JTextField(20);
+        // Campi per visualizzare e modificare i dati
+        JTextField usernameField = new JTextField(loggedInUser.getUsername());
+        JTextField emailField = new JTextField(loggedInUser.getEmail());
+        JPasswordField passwordField = new JPasswordField(loggedInUser.getPassword());
 
-        updateButton = new JButton("Aggiorna Profilo");
+        JButton saveButton = new JButton("Salva Modifiche");
+        JButton cancelButton = new JButton("Annulla Modifiche");
 
-        // Aggiungi i listener per il pulsante di aggiornamento
-        updateButton.addActionListener(e -> updateProfile());
-
-        // Layout della finestra
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        add(usernameLabel);
+        // Etichette e campi di input
+        add(new JLabel("Modifica Username:"));
         add(usernameField);
-        add(passwordLabel);
-        add(passwordField);
-        add(emailLabel);
+        add(new JLabel("Modifica Email:"));
         add(emailField);
-        add(updateButton);
+        add(new JLabel("Modifica Password:"));
+        add(passwordField);
 
-        // Carica i dati dell'utente
-        loadUserData();
-    }
+        // Pulsanti
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(saveButton);
+        buttonPanel.add(cancelButton);
+        add(buttonPanel);
 
-    // Carica i dati dell'utente
-    private void loadUserData() {
-        User user = profileController.getUser();
-        usernameField.setText(user.getUsername());
-        passwordField.setText(user.getPassword());
-        emailField.setText(user.getEmail());
-    }
+        // Azione per salvare i dati
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String newUsername = usernameField.getText();
+                String newEmail = emailField.getText();
+                String newPassword = new String(passwordField.getPassword());
 
-    // Gestisce l'aggiornamento dei dati del profilo
-    private void updateProfile() {
-        String username = usernameField.getText();
-        String password = new String(passwordField.getPassword());
-        String email = emailField.getText();
+                if (newUsername.isEmpty() || newEmail.isEmpty() || newPassword.isEmpty()) {
+                    JOptionPane.showMessageDialog(ProfileView.this, "Tutti i campi devono essere compilati!");
+                    return;
+                }
 
-        // aggiornare l'oggetto User con i nuovi dati
-        profileController.updateUser(username, password, email);
+                // Aggiorna i dati nell'oggetto utente loggato
+                loggedInUser.setUsername(newUsername);
+                loggedInUser.setEmail(newEmail);
+                loggedInUser.setPassword(newPassword);
 
-        // Ricarica i dati
-        loadUserData();
+                // Salva le modifiche nel file tramite UserController
+                userController.updateUser(loggedInUser);
+
+                JOptionPane.showMessageDialog(ProfileView.this, "Dati aggiornati con successo!");
+            }
+        });
+
+        // Azione per annullare
+        cancelButton.addActionListener(e -> {
+            // Ripristina i valori originali
+            usernameField.setText(loggedInUser.getUsername());
+            emailField.setText(loggedInUser.getEmail());
+            passwordField.setText(loggedInUser.getPassword());
+        });
     }
 }

@@ -1,6 +1,2 @@
-testUser,testPassword
-prova,provaprova
-user,user
-test,test
-username,password
-ergisa,ergisa
+tttt,ttt,ttt
+Manuel123,manuel123,manuel@gmail.com

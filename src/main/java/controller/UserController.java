@@ -1,49 +1,58 @@
 package controller;
 
+import model.User;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import java.io.*;
 
 public class UserController {
     private static final String USER_FILE_PATH = "users.txt"; // Percorso per il file di testo
 
     private List<User> users;
 
-    // Inizializzazione controller
+    // Inizializzazione del controller e carica utenti dal file di testo all'avvio
     public UserController() {
-        users = loadUsers(); // Carica gli utenti dal file di testo all'avvio
+        users = loadUsers();
     }
 
-    // registrazione nuovo user
-    public boolean registerUser(String username, String password) {
+    // Registrazione di un nuovo utente
+    public boolean registerUser(String username, String password, String email) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
-                return false; // User already exists
+                return false; // L'utente esiste già
             }
         }
-        users.add(new User(username, password));
-        // Salva la lista aggiornata nel file di testo
+        users.add(new User(username, password, email)); // Aggiungi il nuovo utente
         saveUsers();
         return true;
     }
 
-    // Verifica le credenziali di un utente
-    public boolean validateUser(String username, String password) {
+    // Validazione delle credenziali di un utente
+    public User validateUser(String username, String password) {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                return true; // Utente valido
+                return user; // Utente valido
             }
         }
-        return false; // Utente non trovato
+        return null; // Credenziali non valide
+    }
+
+    // Aggiorna un utente nel file users.txt
+    public void updateUser(model.User updatedUser) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(updatedUser.getUsername())) {
+                users.set(i, updatedUser); // Aggiorna l'utente nella lista
+                break;
+            }
+        }
+        saveUsers(); // Salva la lista aggiornata nel file
     }
 
     // Salva gli utenti nel file di testo
     private void saveUsers() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USER_FILE_PATH))) {
             for (User user : users) {
-                // Scrivi ogni utente su una nuova riga nel formato "username,password"
-                writer.write(user.getUsername() + "," + user.getPassword());
+                writer.write(user.getUsername() + "," + user.getPassword() + "," + user.getEmail());
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -57,34 +66,14 @@ public class UserController {
         try (BufferedReader reader = new BufferedReader(new FileReader(USER_FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                // Per ogni riga, separa username e password e crea un nuovo oggetto User
                 String[] userParts = line.split(",");
-                if (userParts.length == 2) {
-                    loadedUsers.add(new User(userParts[0], userParts[1]));
+                if (userParts.length == 3) {
+                    loadedUsers.add(new User(userParts[0], userParts[1], userParts[2]));
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return loadedUsers;
-    }
-
-    // Classe interna per rappresentare un utente
-    private static class User {
-        private String username;
-        private String password;
-
-        public User(String username, String password) {
-            this.username = username;
-            this.password = password;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
     }
 }
