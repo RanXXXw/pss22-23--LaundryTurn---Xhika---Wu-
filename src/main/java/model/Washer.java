@@ -1,6 +1,5 @@
 package model;
 
-
 public class Washer {
     // dichiarazione campi
     private final String name;

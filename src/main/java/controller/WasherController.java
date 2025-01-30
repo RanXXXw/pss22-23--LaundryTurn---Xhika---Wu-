@@ -17,4 +17,5 @@ public class WasherController {
         model.setAvailable(!model.isAvailable());
         view.updateView(model);
     }
+
 }

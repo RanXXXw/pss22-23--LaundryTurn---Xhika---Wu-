@@ -56,6 +56,8 @@ public class ReservationView extends JFrame {
         // Imposta il CardLayout per cambiare pagina
         add(cards);
 
+        updateReservationList();
+
         setVisible(true);
     }
 
