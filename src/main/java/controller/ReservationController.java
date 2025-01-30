@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,7 @@ public class ReservationController {
             Reservation reservation = new Reservation(reservations.size() + 1, startTime,
                     washer);
             reservations.add(reservation);
+            saveReservationsToFile();
             return reservation;
         } else {
             System.out.println("Lavatrice non disponibile in questa fascia oraria!");
@@ -41,6 +45,7 @@ public class ReservationController {
         } else {
             reservations.remove(reservation);
             reservation.getWasher().setAvailable(true);
+            saveReservationsToFile();
             return true;
         }
     }
@@ -93,6 +98,21 @@ public class ReservationController {
 
     public void addWasher(Washer washer) {
         washers.add(washer);
+    }
+
+    public void saveReservationsToFile() {
+        String filename = "reservations.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (Reservation reservation : reservations) {
+                writer.write(reservation.getId() + "," +
+                        reservation.getStartTime() + "," +
+                        reservation.getWasher().getName());
+                writer.newLine(); // Va a capo per la prossima prenotazione
+            }
+            System.out.println("Prenotazioni salvate con successo su " + filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
