@@ -78,7 +78,7 @@ public class ReservationView extends JFrame {
         updateWasherDropdown();
 
         JLabel timeSlotLabel = new JLabel("Seleziona fascia oraria:");
-        timeSlotDropdown = new JComboBox<>();
+        timeSlotDropdown = new JComboBox<>(generateTimeSlots());
 
         // Pulsante per visualizzare le prenotazioni
         JButton reservationsListButton = new JButton("Visualizza Prenotazioni");
@@ -106,35 +106,6 @@ public class ReservationView extends JFrame {
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(bookButton, BorderLayout.SOUTH);
 
-        // Aggiungi listeners per aggiornare i time slot
-        dateDropdown.addActionListener(e -> {
-            String selectedDateStr = (String) dateDropdown.getSelectedItem();
-            if (selectedDateStr != null && washerDropdown.getSelectedItem() != null) {
-                LocalDate selectedDate = LocalDate.parse(selectedDateStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                String selectedWasherName = (String) washerDropdown.getSelectedItem();
-                Washer selectedWasher = manager.getAvailableWasher()
-                        .stream()
-                        .filter(washer -> washer.getName().equals(selectedWasherName))
-                        .findFirst()
-                        .orElse(null);
-                updateTimeSlots(selectedWasher, selectedDate);
-            }
-        });
-
-        washerDropdown.addActionListener(e -> {
-            String selectedWasherName = (String) washerDropdown.getSelectedItem();
-            if (selectedWasherName != null && dateDropdown.getSelectedItem() != null) {
-                LocalDate selectedDate = LocalDate.parse((String) dateDropdown.getSelectedItem(),
-                        DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                Washer selectedWasher = manager.getAvailableWasher()
-                        .stream()
-                        .filter(washer -> washer.getName().equals(selectedWasherName))
-                        .findFirst()
-                        .orElse(null);
-                updateTimeSlots(selectedWasher, selectedDate);
-            }
-        });
-
         return panel;
     }
 
@@ -150,7 +121,7 @@ public class ReservationView extends JFrame {
         panel.add(listScrollPane, BorderLayout.CENTER);
 
         // Pannello inferiore con pulsanti
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 10, 10));
 
         // Pulsante per tornare alla schermata principale
         JButton backButton = new JButton("Torna alla Prenotazione");
@@ -179,7 +150,17 @@ public class ReservationView extends JFrame {
         });
         buttonPanel.add(deleteButton);
 
-        reservationList.addListSelectionListener(e -> deleteButton.setEnabled(!reservationList.isSelectionEmpty()));
+        // Pulsante per modificare l'orario della prenotazione
+        JButton editButton = new JButton("Modifica Orario");
+        editButton.setEnabled(false);
+        editButton.addActionListener(e -> handleEditBooking(reservationList));
+        buttonPanel.add(editButton);
+
+        reservationList.addListSelectionListener(e -> {
+            boolean isSelected = !reservationList.isSelectionEmpty();
+            deleteButton.setEnabled(isSelected);
+            editButton.setEnabled(isSelected);
+        });
 
         panel.add(buttonPanel, BorderLayout.SOUTH);
         return panel;
@@ -201,49 +182,13 @@ public class ReservationView extends JFrame {
         return dates.toArray(new String[0]);
     }
 
-    private void updateTimeSlots(Washer selectedWasher, LocalDate selectedDate) {
-        List<String> availableSlots = new ArrayList<>();
-        List<String> unavailableSlots = new ArrayList<>();
-
-        // Generate available and unavailable slots
+    private String[] generateTimeSlots() {
+        List<String> slots = new ArrayList<>();
         for (int i = 8; i <= 22; i++) {
             String slot = String.format("%02d:00 - %02d:00", i, i + 1);
-            LocalTime startTime = LocalTime.of(i, 0);
-            LocalTime endTime = LocalTime.of(i + 1, 0);
-
-            LocalDateTime startDateTime = LocalDateTime.of(selectedDate, startTime);
-            LocalDateTime endDateTime = LocalDateTime.of(selectedDate, endTime);
-
-            if (manager.isWasherAvailable(selectedWasher, startDateTime, endDateTime)) {
-                availableSlots.add(slot);
-            } else {
-                unavailableSlots.add(slot);
-            }
+            slots.add(slot);
         }
-
-        // Update the dropdown with available and unavailable slots
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-        for (String slot : availableSlots) {
-            model.addElement(slot);
-        }
-
-        // Disable unavailable slots and change their color to gray
-        timeSlotDropdown.setModel(model);
-        timeSlotDropdown.setRenderer(new ListCellRenderer<String>() {
-            @Override
-            public Component getListCellRendererComponent(JList<? extends String> list, String value, int index,
-                    boolean isSelected, boolean cellHasFocus) {
-                JLabel label = new JLabel(value);
-                if (unavailableSlots.contains(value)) {
-                    label.setForeground(Color.GRAY); // Set gray color for unavailable slots
-                    label.setEnabled(false); // Make unavailable slots unselectable
-                } else {
-                    label.setForeground(Color.BLACK);
-                    label.setEnabled(true);
-                }
-                return label;
-            }
-        });
+        return slots.toArray(new String[0]);
     }
 
     private void handleBooking() {
@@ -291,6 +236,58 @@ public class ReservationView extends JFrame {
         } else {
             statusArea.append(
                     "Fascia oraria non disponibile per " + selectedWasher.getName() + " il " + selectedDateStr + ".\n");
+        }
+    }
+
+    private void handleEditBooking(JList<String> reservationList) {
+        int selectedIndex = reservationList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            Reservation selectedReservation = manager.getReservationsForLoggedInUser().get(selectedIndex);
+
+            // Ottieni la data e l'orario della prenotazione da modificare
+            LocalDateTime originalStartTime = selectedReservation.getStartTime();
+
+            // Chiedi all'utente di selezionare una nuova fascia oraria
+            String[] newTimeSlots = generateTimeSlots();
+            String newTimeSlot = (String) JOptionPane.showInputDialog(
+                    this,
+                    "Seleziona una nuova fascia oraria:",
+                    "Modifica Orario",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    newTimeSlots,
+                    newTimeSlots[0]);
+
+            if (newTimeSlot != null) {
+                // Parse la nuova fascia oraria
+                String[] times = newTimeSlot.split(" - ");
+                LocalTime newStartTime = LocalTime.parse(times[0]);
+                LocalTime newEndTime = LocalTime.parse(times[1]);
+
+                LocalDateTime newStartDateTime = LocalDateTime.of(originalStartTime.toLocalDate(), newStartTime);
+                LocalDateTime newEndDateTime = LocalDateTime.of(originalStartTime.toLocalDate(), newEndTime);
+
+                // Verifica se la nuova fascia oraria è disponibile
+                Washer selectedWasher = selectedReservation.getWasher();
+                if (manager.isWasherAvailable(selectedWasher, newStartDateTime, newEndDateTime)) {
+                    // Chiama la funzione modifyReservation del controller per modificare la
+                    // prenotazione
+                    boolean success = manager.modifyReservation(selectedReservation, newStartDateTime);
+                    if (success) {
+                        statusArea.append("Prenotazione modificata: " + selectedWasher.getName() + " il "
+                                + originalStartTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                                + " dalle " + newStartTime + " alle " + newEndTime + ".\n");
+
+                        // Aggiorna la lista delle prenotazioni
+                        updateReservationList();
+                    } else {
+                        statusArea.append("Impossibile modificare la prenotazione.\n");
+                    }
+                } else {
+                    statusArea.append("La fascia oraria selezionata non è disponibile per "
+                            + selectedWasher.getName() + ".\n");
+                }
+            }
         }
     }
 }

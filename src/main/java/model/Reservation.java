@@ -38,6 +38,10 @@ public class Reservation {
         this.startTime = newStartTime;
     }
 
+    public void setEndTime(LocalDateTime newStartTime) {
+        this.endTime = newStartTime.plusHours(1);
+    }
+
     public User getUser() {
         return user;
     }

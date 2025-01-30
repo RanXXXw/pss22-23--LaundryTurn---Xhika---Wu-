@@ -73,7 +73,9 @@ public class ReservationController {
         }
         // Modifica la prenotazione esistente
         reservation.setStartTime(newStartTime);
+        reservation.setEndTime(newStartTime);
         System.out.println("Prenotazione modificata con successo!");
+        saveReservationsToFile();
         return true;
     }
 
