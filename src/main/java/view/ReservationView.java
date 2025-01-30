@@ -72,7 +72,7 @@ public class ReservationView extends JFrame {
 
         // Aggiungi tutte le prenotazioni attuali al modello
         model.clear(); // Pulisce il modello per evitare duplicati
-        for (Reservation reservation : manager.getReservations()) {
+        for (Reservation reservation : manager.getReservationsForLoggedInUser()) {
             model.addElement(reservation.toString());
         }
     }
@@ -163,7 +163,7 @@ public class ReservationView extends JFrame {
                         javax.swing.JOptionPane.YES_NO_OPTION);
 
                 if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-                    Reservation reservation = manager.getReservations().get(selectedIndex);
+                    Reservation reservation = manager.getReservationsForLoggedInUser().get(selectedIndex);
                     manager.cancelReservation(reservation);
                     updateReservationList(); // Aggiorna la lista dopo la cancellazione
                     javax.swing.JOptionPane.showMessageDialog(this, "Prenotazione cancellata con successo.");

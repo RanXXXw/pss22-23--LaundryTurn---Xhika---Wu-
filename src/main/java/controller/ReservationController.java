@@ -102,11 +102,6 @@ public class ReservationController {
         return availableWashers;
     }
 
-    // ottenere tutti prenotazioni
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
     public void addWasher(Washer washer) {
         washers.add(washer);
     }
@@ -142,6 +137,7 @@ public class ReservationController {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm", Locale.ITALIAN);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            // Carica tutte le prenotazioni dal file
             reservations = reader.lines()
                     .map(line -> {
                         try {
@@ -184,11 +180,17 @@ public class ReservationController {
                     .filter(reservation -> reservation != null)
                     .collect(Collectors.toList());
 
-            System.out.println("Total reservations loaded: " + reservations.size());
+            System.out.println("Total reservations for logged in user: " + reservations.size());
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
             reservations = new ArrayList<>();
         }
+    }
+
+    public List<Reservation> getReservationsForLoggedInUser() {
+        return reservations.stream()
+                .filter(reservation -> reservation.getUser().getUsername().equals(loggedInUser.getUsername()))
+                .collect(Collectors.toList());
     }
 
 }

@@ -10,12 +10,12 @@ public class Reservation {
     private Washer washer;
     private User user;
 
-    public Reservation(int id, LocalDateTime startTime, Washer washer, User user) {
+    public Reservation(int id, LocalDateTime startTime, Washer washer, User loggedInUser) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = startTime.plusHours(1);
         this.washer = washer;
-        this.user = user;
+        this.user = loggedInUser;
     }
 
     public int getId() {
