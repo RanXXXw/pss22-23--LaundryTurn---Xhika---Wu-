@@ -8,12 +8,14 @@ public class Reservation {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Washer washer;
+    private User user;
 
-    public Reservation(int id, LocalDateTime startTime, Washer washer) {
+    public Reservation(int id, LocalDateTime startTime, Washer washer, User user) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = startTime.plusHours(1);
         this.washer = washer;
+        this.user = user;
     }
 
     public int getId() {
@@ -36,6 +38,10 @@ public class Reservation {
         this.startTime = newStartTime;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public String toString() {
         // Formatta data e orario in un formato leggibile
@@ -46,7 +52,8 @@ public class Reservation {
         String startFormatted = startTime.format(timeFormatter);
         String endFormatted = endTime.format(timeFormatter);
 
-        return dateFormatted + " - " + washer.getName() + " dalle " + startFormatted + " alle " + endFormatted;
+        return user + " " + dateFormatted + " - " + washer.getName() + " dalle " + startFormatted + " alle "
+                + endFormatted;
     }
 
     public boolean canModify() {

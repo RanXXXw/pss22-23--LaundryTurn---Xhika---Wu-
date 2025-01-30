@@ -15,14 +15,17 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import model.Reservation;
+import model.User;
 import model.Washer;
 
 public class ReservationController {
     private List<Washer> washers;
     private List<Reservation> reservations;
+    private User loggedInUser;
 
     // costruttore
-    public ReservationController() {
+    public ReservationController(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
         washers = new ArrayList<>();
         reservations = new ArrayList<>();
         loadReservationsFromFile(); // Carica i dati salvati
@@ -35,7 +38,7 @@ public class ReservationController {
         // Controlla se la lavatrice è disponibile nella fascia richiesta
         if (isWasherAvailable(washer, startTime, endTime)) {
             Reservation reservation = new Reservation(reservations.size() + 1, startTime,
-                    washer);
+                    washer, loggedInUser);
             reservations.add(reservation);
             saveReservationsToFile();
             return reservation;
@@ -119,7 +122,10 @@ public class ReservationController {
                 String startFormatted = reservation.getStartTime().format(timeFormatter);
                 String endFormatted = reservation.getEndTime().format(timeFormatter);
 
-                String line = dateFormatted + " - " + reservation.getWasher().getName() + " dalle " + startFormatted
+                String line = reservation.getUser().getUsername() + " " + dateFormatted + " - "
+                        + reservation.getWasher().getName()
+                        + " dalle "
+                        + startFormatted
                         + " alle " + endFormatted;
                 writer.write(line);
                 writer.newLine();
@@ -140,26 +146,36 @@ public class ReservationController {
                     .map(line -> {
                         try {
                             // Split line into components
-                            String[] dateParts = line.split(" - ", 2);
-                            String[] washerAndTime = dateParts[1].split(" dalle ");
-                            String startTimeStr = washerAndTime[1].split(" alle ")[0];
+                            String[] parts = line.split(" ", 2);
+                            String userName = parts[0];
+                            String[] dateAndWasherTime = parts[1].split(" - ", 2);
+                            String dateFormatted = dateAndWasherTime[0].trim();
+                            String[] washerAndTime = dateAndWasherTime[1].split(" dalle ");
+                            String washerName = washerAndTime[0].trim();
+                            String[] times = washerAndTime[1].split(" alle ");
+                            String startTimeStr = times[0].trim();
 
                             // Parse date and time
-                            LocalDateTime startTime = LocalDateTime.of(
-                                    LocalDate.parse(dateParts[0].trim(), dateFormatter),
-                                    LocalTime.parse(startTimeStr.trim(), timeFormatter));
+                            LocalDate date = LocalDate.parse(dateFormatted, dateFormatter);
+                            LocalTime startTime = LocalTime.parse(startTimeStr, timeFormatter);
 
-                            // Get or create washer
                             Washer washer = washers.stream()
-                                    .filter(w -> w.getName().equals(washerAndTime[0].trim()))
+                                    .filter(w -> w.getName().equals(washerName))
                                     .findFirst()
                                     .orElseGet(() -> {
-                                        Washer newWasher = new Washer(washerAndTime[0].trim(), true);
+                                        Washer newWasher = new Washer(washerName, true);
                                         washers.add(newWasher);
                                         return newWasher;
                                     });
 
-                            return new Reservation(reservations.size() + 1, startTime, washer);
+                            UserController userController = new UserController(); // Creazione istanza di UserController
+                            User user = userController.getUsers().stream()
+                                    .filter(u -> u.getUsername().equals(userName))
+                                    .findFirst()
+                                    .orElse(null);
+
+                            return new Reservation(reservations.size() + 1, LocalDateTime.of(date, startTime), washer,
+                                    user);
                         } catch (Exception e) {
                             System.out.println("Error processing line: " + line);
                             return null;
@@ -174,4 +190,5 @@ public class ReservationController {
             reservations = new ArrayList<>();
         }
     }
+
 }

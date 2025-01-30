@@ -76,4 +76,8 @@ public class UserController {
         }
         return loadedUsers;
     }
+
+    public List<User> getUsers() {
+        return users; // Restituisce la lista degli utenti
+    }
 }
