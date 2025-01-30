@@ -7,12 +7,9 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
     // Suppressions for SpotBugs
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.8.6")
-
-
 
     val jUnitVersion = "5.11.3"
     // JUnit API and testing engine
