@@ -24,6 +24,7 @@ La nuova fascia oraria scelta è disponibile e non prenotata da altri utenti.
 ## Analisi e modello del dominio
 L’applicazione gestisce la prenotazione delle lavatrici in una lavanderia. Gli utenti possono prenotare lavatrici per fasce orarie predefinite. Il sistema garantisce che una lavatrice non venga prenotata da più utenti nello stesso orario e permette la modifica o la cancellazione di una prenotazione solo entro un certo limite di tempo.
 
+```mermaid
 classDiagram
 
     class User {
@@ -47,7 +48,7 @@ classDiagram
 
     User  -->  Reservation 
     Washer  -->  Reservation 
-
+```
 
 # Design
 
@@ -58,6 +59,7 @@ Il Controller gestisce le interazioni dell'utente e coordina il flusso dell'appl
 La View si occupa della rappresentazione grafica dell'applicazione. Ogni volta che lo stato del sistema cambia (ad esempio, una nuova prenotazione viene effettuata o una lavatrice diventa disponibile), il modello notifica il controller, che a sua volta aggiorna l’interfaccia utente. Questo approccio consente di modificare o sostituire la GUI senza alterare la logica sottostante dell'applicazione.
 Questa architettura garantisce modularità e facilità di manutenzione, permettendo di espandere il sistema in futuro con nuove funzionalità o interfacce grafiche diverse senza compromettere il funzionamento del backend.
 
+```mermaid
 classDiagram
 
     class Model {
@@ -79,9 +81,9 @@ classDiagram
         LoginView
         ProfileView
     }
-
 Model -- View 
 View -- Controller
+```
 
 ## Design dettagliato
 
