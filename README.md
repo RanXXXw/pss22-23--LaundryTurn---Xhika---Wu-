@@ -24,6 +24,15 @@ La nuova fascia oraria scelta è disponibile e non prenotata da altri utenti.
 ## Analisi e modello del dominio
 L’applicazione gestisce la prenotazione delle lavatrici in una lavanderia. Gli utenti possono prenotare lavatrici per fasce orarie predefinite. Il sistema garantisce che una lavatrice non venga prenotata da più utenti nello stesso orario e permette la modifica o la cancellazione di una prenotazione solo entro un certo limite di tempo.
 
+***User (Utente)***
+L'utente rappresenta una persona che interagisce con l'applicazione per prenotare una lavatrice. Ogni utente ha una serie di attributi che lo identificano (es. username, password, email) e può avere un insieme di prenotazioni. L'utente può effettuare, modificare o cancellare una prenotazione.
+
+***Washer (Lavatrice)***
+Una lavatrice è un oggetto che può essere prenotato. Ha attributi come il nome e la disponibilità. La disponibilità indica se la lavatrice è libera in un determinato intervallo temporale. Le lavatrici sono risorse limitate e devono essere gestite per evitare conflitti tra gli utenti.
+
+***Reservation (Prenotazione)***
+Una prenotazione rappresenta l'operazione di un utente che ha riservato una lavatrice per un determinato intervallo di tempo. Una prenotazione contiene informazioni come l'utente che ha effettuato la prenotazione, la lavatrice prenotata, l'orario di inizio e di fine.
+
 ```mermaid
 classDiagram
 
@@ -50,13 +59,23 @@ classDiagram
     Washer  -->  Reservation 
 ```
 
+
+
+Una delle sfide principali è la gestione della disponibilità delle lavatrici. In un determinato intervallo di tempo, una lavatrice deve essere prenotata da un solo utente, e quindi la disponibilità deve essere aggiornata in tempo reale, evitando che due utenti possano prenotare la stessa lavatrice nello stesso orario.
+
+Un altro aspetto critico riguarda la gestione delle modifiche o cancellazioni delle prenotazioni. Il sistema deve permettere agli utenti di modificare o cancellare le prenotazioni solo entro un certo limite di tempo (es. prima di un'ora dalla prenotazione). Questo richiede una gestione precisa dei tempi e delle regole di business.
+
 # Design
 
 ## Architettura
 L'architettura del sistema di gestione turni lavanderie segue il pattern MVC (Model-View-Controller), garantendo una separazione chiara tra i diversi aspetti dell'applicazione per una gestione efficiente e scalabile.
+
 Il Model rappresenta i dati e la logica di business, comprendendo entità come Utente, Turno e Lavatrice, oltre alla logica di gestione delle prenotazioni e dello stato delle lavatrici.
+
 Il Controller gestisce le interazioni dell'utente e coordina il flusso dell'applicazione. Quando un utente effettua un'azione, come la prenotazione di un turno, il controller elabora la richiesta, aggiorna il modello e notifica la vista con i nuovi dati.
+
 La View si occupa della rappresentazione grafica dell'applicazione. Ogni volta che lo stato del sistema cambia (ad esempio, una nuova prenotazione viene effettuata o una lavatrice diventa disponibile), il modello notifica il controller, che a sua volta aggiorna l’interfaccia utente. Questo approccio consente di modificare o sostituire la GUI senza alterare la logica sottostante dell'applicazione.
+
 Questa architettura garantisce modularità e facilità di manutenzione, permettendo di espandere il sistema in futuro con nuove funzionalità o interfacce grafiche diverse senza compromettere il funzionamento del backend.
 
 ```mermaid
@@ -166,6 +185,6 @@ public class ReservationView extends JFrame {
 ## Autovalutazione e lavori futuri
 
 ### Xiaoran Wu
-Il progetto finale che ho realizzato è funzionante e durante lo sviluppo non ho incontrato particolari difficoltà; una volta definita la struttura iniziale, il flusso di lavoro è stato molto scorrevole. Ritengo di aver svolto un buon lavoro, riuscendo a implementare correttamente le funzionalità principali del progetto.
+Il progetto finale che ho realizzato è funzionante e durante lo sviluppo non ho incontrato particolari difficoltà; una volta definita la struttura iniziale, il flusso di lavoro è stato molto scorrevole. Ritengo di aver svolto completamente il lavoro, riuscendo a implementare correttamente le funzionalità principali del progetto.
 
 ### Ergisa Xhika
