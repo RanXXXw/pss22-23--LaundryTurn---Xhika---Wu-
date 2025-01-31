@@ -1,4 +1,4 @@
-# Relazione per Progetto "LaudryTurn"
+# Relazione per Progetto "LaundryTurn"
 
 # Analisi
 
@@ -22,7 +22,32 @@ La nuova fascia oraria scelta è disponibile e non prenotata da altri utenti.
 - [ ] <b>Interfaccia Grafica</b>: L'applicazione utilizzerà Java Swing per la gestione dell'interfaccia utente, garantendo un'esperienza intuitiva e accessibile.
 
 ## Analisi e modello del dominio
-All'interno del sistema di gestione turni per lavanderie, entrano in gioco diverse entità fondamentali. Il sistema ha lo scopo di organizzare e ottimizzare l'uso delle lavatrici, permettendo agli utenti di prenotare turni e gestire il tempo di utilizzo in modo equo ed efficiente.
+L’applicazione gestisce la prenotazione delle lavatrici in una lavanderia. Gli utenti possono prenotare lavatrici per fasce orarie predefinite. Il sistema garantisce che una lavatrice non venga prenotata da più utenti nello stesso orario e permette la modifica o la cancellazione di una prenotazione solo entro un certo limite di tempo.
+
+classDiagram
+
+    class User {
+        - String username
+        - String password
+        - String email
+    }
+
+    class Washer {
+        - String name
+        - boolean availability
+    }
+
+    class Reservation {
+        - int id
+        - LocalDateTime startTime
+        - LocalDateTime endTime
+        - User user
+        - Washer washer
+    }
+
+    User  -->  Reservation 
+    Washer  -->  Reservation 
+
 
 # Design
 
@@ -33,19 +58,50 @@ Il Controller gestisce le interazioni dell'utente e coordina il flusso dell'appl
 La View si occupa della rappresentazione grafica dell'applicazione. Ogni volta che lo stato del sistema cambia (ad esempio, una nuova prenotazione viene effettuata o una lavatrice diventa disponibile), il modello notifica il controller, che a sua volta aggiorna l’interfaccia utente. Questo approccio consente di modificare o sostituire la GUI senza alterare la logica sottostante dell'applicazione.
 Questa architettura garantisce modularità e facilità di manutenzione, permettendo di espandere il sistema in futuro con nuove funzionalità o interfacce grafiche diverse senza compromettere il funzionamento del backend.
 
+classDiagram
+
+    class Model {
+        Reservation
+        User
+        Washer
+    }
+
+    class Controller {
+        ReservationController
+        UserController
+        WasherController
+        ProfileController
+    }
+
+    class View {
+        ReservationView
+        WasherView
+        LoginView
+        ProfileView
+    }
+
+Model -- View 
+View -- Controller
+
 ## Design dettagliato
 
 ### Xiaoran Wu
 Il mio compito principale all'interno del gruppo è lo sviluppo della sezione dedicata alla gestione delle prenotazioni. Dopo aver definito la struttura iniziale, ho iniziato a implementare le funzionalità per la creazione, modifica e cancellazione delle prenotazioni. Inoltre, mi sono occupato dell'interfaccia grafica utilizzando Java Swing per garantire un'esperienza utente intuitiva.
 Una volta completato lo sviluppo della parte utente da parte della mia collega, mi sono concentrato sull'integrazione tra le due sezioni, assicurandomi che ogni utente potesse visualizzare e gestire le proprie prenotazioni in modo efficace.
 
-**Collegamento tra utente e pronotazione**
+**Navigazione tra schermate**
 
-**Problema**  
-Ogni utente poteva visualizzare tutti le pronotazioni anche quelle non relative.
+**Problema**  La finestra principale avava dei problemi per passare dalla schermata di prenotazione a quella della lista prenotazioni. Il passaggio tra queste due viste inizialmente non funzionava correttamente.
 
-**Soluzione**
-Aggiungendo nuovo campo user nella sezione prenotazione e creare un filtro per i dati della prenotazione.
+**Soluzione** Utilizzo del CardLayout, attraverso cardLayout.show(cards, "Reservation") e cardLayout.show(cards, "ReservationList") per garantire un cambio di schermata fluido.
+Il pulsante "Visualizza Prenotazioni" è stato collegato alla schermata corretta e la lista delle prenotazioni viene aggiornata prima di mostrarla.
+
+**Aggiornamento della lista delle prenotazioni**
+
+**Problema** Dopo aver effettuato o cancellato una prenotazione, l'interfaccia non aggiornava correttamente la lista delle prenotazioni per l'utente loggato.
+
+**Soluzione** Dopo ogni prenotazione o cancellazione, il metodo updateWasherDropdown() viene richiamato per aggiornare il JComboBox delle lavatrici disponibili.
+Questo assicura che l'utente possa selezionare solo lavatrici non occupate.
 
 ### Ergisa Xhika
 
@@ -57,15 +113,17 @@ Aggiungendo nuovo campo user nella sezione prenotazione e creare un filtro per i
 ## Test automatizzato
 Nel progetto è stato utilizzato JUnit 5 per automatizzare il processo di verifica delle funzionalità e garantire la qualità del codice. I test automatizzati sono fondamentali per assicurarsi che l'applicazione si comporti correttamente anche dopo modifiche e aggiornamenti al codice.
 
-- **ReservationControllerTest**: uesto test suite si concentra sulla verifica delle principali funzionalità legate alla gestione delle prenotazioni all'interno del sistema.
+- **ReservationControllerTest**: Questo test suite si concentra sulla verifica delle principali funzionalità legate alla gestione delle prenotazioni all'interno del sistema.  
 
 ## Note di sviluppo
 
 ### Xiaoran Wu
 
-#### Utilizzo della libreria swing
-**Dove**: parte di view
+#### Utilizzo della libreria Swing
+**Dove**: src\main\java\view\ReservationView.java
+
 **Permalink**: https://github.com/RanXXXw/pss22-23--LaundryTurn---Xhika---Wu-/blob/main/src/main/java/view/ReservationView.java
+
 **Snippet**
 ```java
 public class ReservationView extends JFrame {
@@ -79,9 +137,14 @@ public class ReservationView extends JFrame {
     private CardLayout cardLayout;
 }
 ```
+
+**Descrizione**: Utilizzo dei componenti appartenenti alla Java Swing
+
 #### Utilizzo della libreria Stream
-**Dove**: reservation controller
+**Dove**: src\main\java\controller\ReservationController.java
+
 **Permalink**: https://github.com/RanXXXw/pss22-23--LaundryTurn---Xhika---Wu-/blob/main/src/main/java/controller/ReservationController.java
+
 **Snippet**
 ```java
     public List<Reservation> getReservationsForLoggedInUser() {
@@ -90,6 +153,7 @@ public class ReservationView extends JFrame {
                 .collect(Collectors.toList());
     }
 ```
+**Descrizione**: Utilizzo degli stream per rendere il codice più conciso e facilitare le operazioni sulle liste
 
 ### Ergisa Xhika
 
@@ -100,4 +164,6 @@ public class ReservationView extends JFrame {
 ## Autovalutazione e lavori futuri
 
 ### Xiaoran Wu
+Il progetto finale che ho realizzato è funzionante e durante lo sviluppo non ho incontrato particolari difficoltà; una volta definita la struttura iniziale, il flusso di lavoro è stato molto scorrevole. Ritengo di aver svolto un buon lavoro, riuscendo a implementare correttamente le funzionalità principali del progetto.
+
 ### Ergisa Xhika
