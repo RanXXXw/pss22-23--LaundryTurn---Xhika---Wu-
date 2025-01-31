@@ -54,6 +54,10 @@ Aggiungendo nuovo campo user nella sezione prenotazione e creare un filtro per i
 **Soluzione**
 
 # Sviluppo
+## Test automatizzato
+Nel progetto è stato utilizzato JUnit 5 per automatizzare il processo di verifica delle funzionalità e garantire la qualità del codice. I test automatizzati sono fondamentali per assicurarsi che l'applicazione si comporti correttamente anche dopo modifiche e aggiornamenti al codice.
+
+- **ReservationControllerTest**: uesto test suite si concentra sulla verifica delle principali funzionalità legate alla gestione delle prenotazioni all'interno del sistema.
 
 ## Note di sviluppo
 

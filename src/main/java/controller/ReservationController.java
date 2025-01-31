@@ -33,6 +33,13 @@ public class ReservationController {
 
     // Aggiungi una prenotazione
     public Reservation addReservation(Washer washer, LocalDateTime startTime) {
+
+        // Controlla se la lavatrice è disponibile o non
+        if (!washer.isAvailable()) {
+            System.out.println("Lavatrice non disponibile!");
+            return null;
+        }
+
         LocalDateTime endTime = startTime.plusHours(1); // Durata fissa di 1 ora
 
         // Controlla se la lavatrice è disponibile nella fascia richiesta
@@ -48,7 +55,7 @@ public class ReservationController {
         }
     }
 
-    // cancella
+    // Cancella
     public boolean cancelReservation(Reservation reservation) {
         if (reservation == null) {
             System.out.println("La prenotazione non esiste!");
@@ -61,7 +68,7 @@ public class ReservationController {
         }
     }
 
-    // modifica
+    // Modifica
     public boolean modifyReservation(Reservation reservation, LocalDateTime newStartTime) {
         if (reservation == null || !reservations.contains(reservation)) {
             System.out.println("La prenotazione non esiste o non è valida.");
@@ -93,7 +100,7 @@ public class ReservationController {
         return true;
     }
 
-    // controlla disponibilità di tutti lavatrici
+    // Controlla disponibilità di tutti lavatrici
     public List<Washer> getAvailableWasher() {
         List<Washer> availableWashers = new ArrayList<>();
         for (Washer washer : washers) {

@@ -61,6 +61,7 @@ public class Reservation {
     }
 
     public boolean canModify() {
-        return startTime.isAfter(LocalDateTime.now().plusHours(1));
+        LocalDateTime now = LocalDateTime.now();
+        return startTime.isAfter(now.plusHours(1));
     }
 }
