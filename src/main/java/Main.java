@@ -24,7 +24,8 @@ public class Main {
     // Avvia la vista del profilo dell'utente
     public static void showProfileView(ProfileController profileController) {
         SwingUtilities.invokeLater(() -> {
-            // ProfileView profileView = new ProfileView(profileController, profileController.getUserController());
+            // ProfileView profileView = new ProfileView(profileController,
+            // profileController.getUserController());
             // profileView.setVisible(true);
             // profileView.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
