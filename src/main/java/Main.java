@@ -3,7 +3,7 @@ import controller.UserController;
 import model.Washer;
 import view.LoginView;
 import controller.ProfileController;
-// import view.ProfileView;
+import view.ProfileView;
 import controller.ReservationController;
 import view.ReservationView;
 
@@ -24,10 +24,10 @@ public class Main {
     // Avvia la vista del profilo dell'utente
     public static void showProfileView(ProfileController profileController) {
         SwingUtilities.invokeLater(() -> {
-            // ProfileView profileView = new ProfileView(profileController,
-            // profileController.getUserController());
-            // profileView.setVisible(true);
-            // profileView.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            ProfileView profileView = new ProfileView(profileController,
+                    profileController.getUserController());
+            profileView.setVisible(true);
+            profileView.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
             ReservationController manager = new ReservationController(profileController.getLoggedInUser());
             // Aggiungi lavatrici

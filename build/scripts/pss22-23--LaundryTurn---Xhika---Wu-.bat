@@ -70,7 +70,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\pss22-23--LaundryTurn---Xhika---Wu-.jar;%APP_HOME%\lib\jdatepicker-1.3.4.jar
+set CLASSPATH=%APP_HOME%\lib\pss22-23--LaundryTurn---Xhika---Wu-.jar
 
 
 @rem Execute pss22-23--LaundryTurn---Xhika---Wu-

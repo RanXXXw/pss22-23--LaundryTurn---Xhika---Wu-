@@ -10,21 +10,48 @@ public class UserController {
 
     private List<User> users;
 
-    // Inizializzazione del controller e carica utenti dal file di testo all'avvio
     public UserController() {
         users = loadUsers();
+        System.out.println("Utenti caricati dal file:");
+        for (User user : users) {
+            System.out.println(user.getUsername() + " - " + user.getEmail() + " - " + user.getPassword());
+        }
     }
 
     // Registrazione di un nuovo utente
-    public boolean registerUser(String username, String password, String email) {
+    public String registerUser(String username, String password, String email) {
+        // Controllo lunghezza username
+        if (username.length() < 3) {
+            return "Errore: L'username deve avere almeno 3 caratteri.";
+        }
+
+        // Controllo lunghezza password
+        if (password.length() < 6) {
+            return "Errore: La password deve avere almeno 6 caratteri.";
+        }
+
+        // Controllo email valida
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        if (!email.matches(emailRegex)) {
+            return "Errore: Inserisci un'email valida.";
+        }
+
+        // Controllo se l'username o l'email sono gia in uso
         for (User user : users) {
             if (user.getUsername().equals(username)) {
-                return false; // L'utente esiste già
+                return "Errore: L'username e gia in uso.";
             }
+
+            if (user.getEmail().equals(email)) {
+                return "Errore: L'email e gia stata registrata.";
+            }
+
         }
-        users.add(new User(username, password, email)); // Aggiungi il nuovo utente
+
+        // Registra l'utente
+        users.add(new User(username, password, email));
         saveUsers();
-        return true;
+        return "Registrazione avvenuta con successo!";
     }
 
     // Validazione delle credenziali di un utente
@@ -34,11 +61,11 @@ public class UserController {
                 return user; // Utente valido
             }
         }
-        return null; // Credenziali non valide
+        return null;
     }
 
-    // Aggiorna un utente nel file users.txt
-    public void updateUser(model.User updatedUser) {
+    // Aggiorna utente nel file users.txt
+    public void updateUser(User updatedUser) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equals(updatedUser.getUsername())) {
                 users.set(i, updatedUser); // Aggiorna l'utente nella lista
@@ -46,6 +73,26 @@ public class UserController {
             }
         }
         saveUsers(); // Salva la lista aggiornata nel file
+    }
+
+    // Trova utente per email
+    public User findUserByEmail(String email) {
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    // Reimposta la password
+    public boolean resetPassword(User user, String newPassword) {
+        if (user != null) {
+            user.setPassword(newPassword);
+            saveUsers(); // Salva i dati aggiornati
+            return true;
+        }
+        return false;
     }
 
     // Salva gli utenti nel file di testo
