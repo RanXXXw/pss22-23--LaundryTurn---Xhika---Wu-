@@ -255,11 +255,11 @@ Abbiamo utilizzato un'architettura solida e scalabile e ci siamo concentrati sul
 # Guida utente
 
 ### Login per accedere schermata di prenotazione o profilo
-![alt text](image.png)
+![alt text](img/image.png)
 
 Questa è la schermata principale dell'applicazione, da cui l'utente può effettuare il login o la registrazione.
 
-![alt text](image-1.png)
+![alt text](img/image-1.png)
 
 Dopo aver effettuato l'accesso, l'utente può scegliere tra due opzioni:
 
@@ -267,11 +267,11 @@ Dopo aver effettuato l'accesso, l'utente può scegliere tra due opzioni:
 
 - Gestione profilo per modificare le proprie informazioni personali.
 
-![alt text](image-2.png)
+![alt text](img/image-2.png)
 
 Nella schermata del profilo, l'utente può visualizzare e modificare le proprie informazioni personali.
 
-![alt text](image-3.png)
+![alt text](img/image-3.png)
 
 Per effettuare una prenotazione, l'utente deve:
 
@@ -281,7 +281,7 @@ Per effettuare una prenotazione, l'utente deve:
 
 - Selezionare una fascia oraria.
 
-![alt text](image-4.png)
+![alt text](img/image-4.png)
 
 Dopo aver effettuato una prenotazione, l'utente può visualizzare lo storico delle prenotazioni effettuate e compiere azioni come:
 
