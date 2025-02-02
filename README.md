@@ -112,12 +112,62 @@ Una volta completato lo sviluppo della parte utente da parte della mia collega, 
 
 **Navigazione tra schermate**
 
+```mermaid
+classDiagram
+    class MainFrame {
+        - CardLayout cardLayout
+        - JPanel cards
+        - ReservationView reservationView
+        - ReservationListView reservationListView
+        + showReservationView()
+        + showReservationListView()
+    }
+
+    class ReservationView {
+        - JButton viewReservationsButton
+        + showReservations()
+    }
+
+    class ReservationListView {
+        - JButton backButton
+        + showReservationScreen()
+    }
+
+    class CardLayout {
+        + show(container, name)
+    }
+
+    MainFrame --> CardLayout
+    MainFrame --> ReservationView
+    MainFrame --> ReservationListView
+    ReservationView --> MainFrame 
+    ReservationListView --> MainFrame
+```
+
 **Problema**  La finestra principale avava dei problemi per passare dalla schermata di prenotazione a quella della lista prenotazioni. Il passaggio tra queste due viste inizialmente non funzionava correttamente.
 
 **Soluzione** Utilizzo del CardLayout, attraverso cardLayout.show(cards, "Reservation") e cardLayout.show(cards, "ReservationList") per garantire un cambio di schermata fluido.
 Il pulsante "Visualizza Prenotazioni" è stato collegato alla schermata corretta e la lista delle prenotazioni viene aggiornata prima di mostrarla.
 
 **Aggiornamento della lista delle prenotazioni**
+
+```mermaid
+classDiagram
+    class ReservationView {
+        + updateReservationList()
+        + updateWasherDropdown()
+        + handleBooking()
+        + handleEditBooking()
+    }
+
+    class ReservationController {
+        + getReservationsForLoggedInUser()
+        + cancelReservation()
+        + getAvailableWasher()
+    }
+
+    ReservationView --> ReservationController
+```
 
 **Problema** Dopo aver effettuato o cancellato una prenotazione, l'interfaccia non aggiornava correttamente la lista delle prenotazioni per l'utente loggato.
 
@@ -200,3 +250,41 @@ Il progetto finale che ho realizzato è funzionante e durante lo sviluppo non ho
 Il mio contributo al progetto è stato focalizzato principalmente sulla parte di autenticazione e gestione del profilo. Ho imparato molto, soprattutto in relazione alla progettazione di un flusso di lavoro fluido per l'autenticazione e l'interazione dell'utente con l'applicazione.
 In generale, sono soddisfatta del risultato finale, ma c'è sempre spazio per migliorare, mi sono resa conto che alcuni aspetti, come la gestione delle password e la loro sicurezza, possono essere migliorati.
 Abbiamo utilizzato un'architettura solida e scalabile e ci siamo concentrati sulla qualità del codice con test automatizzati. Le funzionalità di base sono state implementate correttamente e il sistema è in grado di soddisfare i requisiti iniziali.
+
+
+# Guida utente
+
+### Login per accedere schermata di prenotazione o profilo
+![alt text](image.png)
+
+Questa è la schermata principale dell'applicazione, da cui l'utente può effettuare il login o la registrazione.
+
+![alt text](image-1.png)
+
+Dopo aver effettuato l'accesso, l'utente può scegliere tra due opzioni:
+
+- Pagina di prenotazione per riservare una lavatrice.
+
+- Gestione profilo per modificare le proprie informazioni personali.
+
+![alt text](image-2.png)
+
+Nella schermata del profilo, l'utente può visualizzare e modificare le proprie informazioni personali.
+
+![alt text](image-3.png)
+
+Per effettuare una prenotazione, l'utente deve:
+
+- Selezionare la data desiderata.
+
+- Scegliere una lavatrice disponibile.
+
+- Selezionare una fascia oraria.
+
+![alt text](image-4.png)
+
+Dopo aver effettuato una prenotazione, l'utente può visualizzare lo storico delle prenotazioni effettuate e compiere azioni come:
+
+- Cancellare una prenotazione.
+
+- Modificare una prenotazione esistente.
