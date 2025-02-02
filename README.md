@@ -189,6 +189,72 @@ Registrazione: Ho implementato la registrazione con un modulo che permette di in
 Autenticazione: Ho creato un sistema di login che verifica le credenziali dell'utente (nome utente e password) e consente l'accesso solo se le credenziali sono corrette.
 Gestione Profilo: Dopo il login, l'utente può visualizzare e modificare il proprio profilo. Le modifiche al profilo vengono salvate nel sistema e aggiornate nella UI in tempo reale. Ho implementato l'interfaccia grafica in modo che l'utente possa facilmente interagire con i suoi dati, come la modifica del username, della password o dell'email.
 
+## Design dettagliato
+```mermaid
+classDiagram
+    class UserController {
+        +registerUser(username: String, password: String, email: String): String
+        +validateUser(username: String, password: String): User
+        +findUserByEmail(email: String): User
+        +resetPassword(user: User, newPassword: String): boolean
+        +getUsers(): List<User>
+    }
+
+    class User {
+        +username: String
+        +password: String
+        +email: String
+        +getUsername(): String
+        +getPassword(): String
+        +getEmail(): String
+        +setUsername(username: String): void
+        +setPassword(password: String): void
+        +setEmail(email: String): void
+    }
+
+    class LoginView {
+        +setVisible(visible: boolean): void
+        +initUI(): void
+        +actionPerformed(e: ActionEvent): void
+    }
+
+    class PasswordRecoveryView {
+        +setVisible(visible: boolean): void
+        +initUI(): void
+    }
+
+    class ProfileView {
+        +setVisible(visible: boolean): void
+        +initUI(): void
+    }
+
+    class ProfileController {
+        +getLoggedInUser(): User
+    }
+
+    UserController --|> User: manages
+    LoginView --> UserController: uses
+    PasswordRecoveryView --> UserController: uses
+    ProfileView --> ProfileController: uses
+    ProfileController --> UserController: uses
+
+    ProfileView --|> JFrame: inherits
+    LoginView --|> JFrame: inherits
+    PasswordRecoveryView --|> JFrame: inherits
+```
+UserController è la classe che gestisce la logica di business (registrazione, validazione, reset della password, etc.) e interagisce con la classe User.
+
+User è una classe che rappresenta un utente, con attributi come username, password, e email. Ha anche metodi getter e setter per ciascun attributo.
+
+LoginView, PasswordRecoveryView, e ProfileView sono classi che rappresentano le viste corrispondenti dell'interfaccia utente, e tutte ereditano da JFrame.
+
+ProfileController è il controller per la gestione del profilo utente, che interagisce con UserController e User.
+Ogni classe è mostrata con i metodi principali. 
+
+Le relazioni tra le classi:
+LoginView, PasswordRecoveryView, e ProfileView utilizzano il UserController per interagire con i dati dell'utente.
+ProfileView e LoginView ereditano dalla classe base JFrame, poiché sono interfacce grafiche.
+
 ## Test automatizzato
 Nel progetto è stato utilizzato JUnit 5 per automatizzare il processo di verifica delle funzionalità e garantire la qualità del codice. I test automatizzati sono fondamentali per assicurarsi che l'applicazione si comporti correttamente anche dopo modifiche e aggiornamenti al codice.
 
@@ -237,9 +303,34 @@ public class ReservationView extends JFrame {
 ```
 **Descrizione**: Utilizzo degli stream per rendere il codice più conciso e facilitare le operazioni sulle liste
 
+### Ergisa Xhika
+#### Utilizzo della gestione degli eventi con ActionListener
+**Dove**: src/main/java/view/ProfileView.java
+
+**Permalink**: https://github.com/TuoRepo/pss22-23---LaundryTurn---Xhika---Wu-/blob/main/src/main/java/view/ProfileView.java
+
+**Snippet**
+saveButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String newUsername = usernameField.getText();
+        String newEmail = emailField.getText();
+        String newPassword = new String(passwordField.getPassword());
+        if (newUsername.isEmpty() || newEmail.isEmpty() || newPassword.isEmpty()) {
+            JOptionPane.showMessageDialog(ProfileView.this, "Tutti i campi devono essere compilati!");
+            return;
+        }
+        loggedInUser.setUsername(newUsername);
+        loggedInUser.setEmail(newEmail);
+        loggedInUser.setPassword(newPassword);
+        userController.updateUser(loggedInUser);
+        JOptionPane.showMessageDialog(ProfileView.this, "Dati aggiornati con successo!");
+    }
+});
+
+**Descrizione**: Gestione degli eventi per il pulsante "Salva Modifiche", che permette di aggiornare i dati dell'utente nel sistema, utilizzando l'ActionListener di Swing. Se i campi sono vuoti, viene mostrato un messaggio di errore.
 
 # Commenti finali
-
 
 ## Autovalutazione e lavori futuri
 
