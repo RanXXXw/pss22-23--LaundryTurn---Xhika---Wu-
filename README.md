@@ -125,16 +125,27 @@ Il pulsante "Visualizza Prenotazioni" è stato collegato alla schermata corretta
 Questo assicura che l'utente possa selezionare solo lavatrici non occupate.
 
 ### Ergisa Xhika
+Il mio contributo al progetto è stato focalizzato sulla gestione dell'utente, dalla registrazione alla modifica del profilo.Ho affrontato le sfide legate all'integrazione del flusso di lavoro tra login, registrazione e visualizzazione del profilo. Durante lo sviluppo, ho imparato molto sulla progettazione delle interfacce grafiche e sulla gestione delle azioni utente in un'applicazione Java.
 
-**titolo**
-**Problema**
-**Soluzione**
+**Gestione Autenticazione e Profilo Utente**
+
+**Problema** Un problema significativo si è presentato nella gestione del flusso di autenticazione, in particolare nel mantenere correttamente lo stato di login dell'utente e nel passare tra la schermata di login e la schermata del profilo utente. La difficoltà principale era quella di gestire il passaggio dei dati utente tra le schermate, garantendo che solo gli utenti autenticati potessero accedere al profilo e alle informazioni sensibili.
+
+**Soluzione** Per risolvere questo problema, ho implementato il controller di login (LoginController.java) che gestisce la validazione delle credenziali e la creazione di una sessione utente una volta effettuato il login con successo. Inoltre, ho progettato la vista di login (LoginView.java) che permette all'utente di inserire username e password, utilizzando la libreria Swing per gestire l'interfaccia grafica. Una volta che l'utente è autenticato, viene indirizzato alla schermata del profilo, gestita dal ProfileView.java, dove può visualizzare e modificare i suoi dati. Per gestire le modifiche, ho creato il controller ProfileController.java, che si occupa di aggiornare le informazioni dell'utente nel sistema e assicurarsi che siano sincronizzate con i dati memorizzati nel file users.txt.
 
 # Sviluppo
+Abbiamo utilizzato il pattern MVC per garantire che la logica di business fosse separata dalla presentazione, permettendo una gestione più chiara delle funzionalità e una facile manutenzione del codice.
+Registrazione: Ho implementato la registrazione con un modulo che permette di inserire un nome utente, una password e un'email. Viene effettuato un controllo per garantire che l'email sia unica e che la password sia sicura.
+Autenticazione: Ho creato un sistema di login che verifica le credenziali dell'utente (nome utente e password) e consente l'accesso solo se le credenziali sono corrette.
+Gestione Profilo: Dopo il login, l'utente può visualizzare e modificare il proprio profilo. Le modifiche al profilo vengono salvate nel sistema e aggiornate nella UI in tempo reale. Ho implementato l'interfaccia grafica in modo che l'utente possa facilmente interagire con i suoi dati, come la modifica del username, della password o dell'email.
+
 ## Test automatizzato
 Nel progetto è stato utilizzato JUnit 5 per automatizzare il processo di verifica delle funzionalità e garantire la qualità del codice. I test automatizzati sono fondamentali per assicurarsi che l'applicazione si comporti correttamente anche dopo modifiche e aggiornamenti al codice.
 
 - **ReservationControllerTest**: Questo test suite si concentra sulla verifica delle principali funzionalità legate alla gestione delle prenotazioni all'interno del sistema.  
+
+- **UserControllerTest** Nel test UserControllerTest, mi sono concentrata su una serie di test unitari per verificare che la classe UserController gestisse correttamente tutte le operazioni legate agli utenti. Questi test sono stati pensati per garantire che la registrazione, la validazione delle credenziali, la ricerca tramite email e il reset della password funzionassero come previsto.
+Ogni test verifica che i metodi di UserController restituiscano i risultati attesi, assicurandomi che la logica di gestione degli utenti sia solida e che eventuali errori vengano gestiti correttamente.
 
 ## Note di sviluppo
 
@@ -176,8 +187,6 @@ public class ReservationView extends JFrame {
 ```
 **Descrizione**: Utilizzo degli stream per rendere il codice più conciso e facilitare le operazioni sulle liste
 
-### Ergisa Xhika
-
 
 # Commenti finali
 
@@ -188,3 +197,6 @@ public class ReservationView extends JFrame {
 Il progetto finale che ho realizzato è funzionante e durante lo sviluppo non ho incontrato particolari difficoltà; una volta definita la struttura iniziale, il flusso di lavoro è stato molto scorrevole. Ritengo di aver svolto completamente il lavoro, riuscendo a implementare correttamente le funzionalità principali del progetto.
 
 ### Ergisa Xhika
+Il mio contributo al progetto è stato focalizzato principalmente sulla parte di autenticazione e gestione del profilo. Ho imparato molto, soprattutto in relazione alla progettazione di un flusso di lavoro fluido per l'autenticazione e l'interazione dell'utente con l'applicazione.
+In generale, sono soddisfatta del risultato finale, ma c'è sempre spazio per migliorare, mi sono resa conto che alcuni aspetti, come la gestione delle password e la loro sicurezza, possono essere migliorati.
+Abbiamo utilizzato un'architettura solida e scalabile e ci siamo concentrati sulla qualità del codice con test automatizzati. Le funzionalità di base sono state implementate correttamente e il sistema è in grado di soddisfare i requisiti iniziali.

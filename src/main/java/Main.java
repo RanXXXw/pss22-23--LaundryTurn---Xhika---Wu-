@@ -1,5 +1,7 @@
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import controller.UserController;
+import model.User;
 import model.Washer;
 import view.LoginView;
 import controller.ProfileController;
@@ -15,27 +17,49 @@ public class Main {
         // Avvio della LoginView
         SwingUtilities.invokeLater(() -> {
             LoginView loginView = new LoginView(userController, (loggedInUser) -> {
-                showProfileView(new ProfileController(loggedInUser, userController)); // Passa UserController
+                askUserChoice(loggedInUser, userController);
             });
             loginView.setVisible(true);
         });
     }
 
+    // Chiede all'utente se vuole aprire il profilo o la gestione prenotazioni
+    public static void askUserChoice(User loggedInUser, UserController userController) {
+        String[] options = { "Profilo Utente", "Gestione Prenotazioni" };
+        int scelta = JOptionPane.showOptionDialog(
+                null,
+                "Login riuscito! Dove vuoi andare?",
+                "Scelta",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+
+        if (scelta == 0) {
+            showProfileView(new ProfileController(loggedInUser, userController));
+        } else if (scelta == 1) {
+            startReservationManagement(loggedInUser);
+        }
+    }
+
     // Avvia la vista del profilo dell'utente
     public static void showProfileView(ProfileController profileController) {
         SwingUtilities.invokeLater(() -> {
-            ProfileView profileView = new ProfileView(profileController,
-                    profileController.getUserController());
+            ProfileView profileView = new ProfileView(profileController, profileController.getUserController());
             profileView.setVisible(true);
             profileView.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        });
+    }
 
-            ReservationController manager = new ReservationController(profileController.getLoggedInUser());
-            // Aggiungi lavatrici
+    // Metodo per avviare la gestione delle prenotazioni
+    public static void startReservationManagement(User loggedInUser) {
+        SwingUtilities.invokeLater(() -> {
+            ReservationController manager = new ReservationController(loggedInUser);
             manager.addWasher(new Washer("Lavatrice 1", true));
             manager.addWasher(new Washer("Lavatrice 2", true));
             manager.addWasher(new Washer("Lavatrice 3", true));
 
-            // Avvio della vista di prenotazione
             showReservationView(manager);
         });
     }

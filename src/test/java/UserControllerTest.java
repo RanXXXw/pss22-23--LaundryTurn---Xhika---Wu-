@@ -10,7 +10,7 @@ public class UserControllerTest {
 
     @BeforeEach
     public void setUp() {
-        userController = new UserController(); // Inizializza UserController
+        userController = new UserController(); // Inizializza UserController prima di ogni test
     }
 
     @Test
