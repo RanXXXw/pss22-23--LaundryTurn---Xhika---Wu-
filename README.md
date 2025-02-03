@@ -183,13 +183,10 @@ Il mio contributo al progetto è stato focalizzato sulla gestione dell'utente, d
 
 **Soluzione** Per risolvere questo problema, ho implementato il controller di login (LoginController.java) che gestisce la validazione delle credenziali e la creazione di una sessione utente una volta effettuato il login con successo. Inoltre, ho progettato la vista di login (LoginView.java) che permette all'utente di inserire username e password, utilizzando la libreria Swing per gestire l'interfaccia grafica. Una volta che l'utente è autenticato, viene indirizzato alla schermata del profilo, gestita dal ProfileView.java, dove può visualizzare e modificare i suoi dati. Per gestire le modifiche, ho creato il controller ProfileController.java, che si occupa di aggiornare le informazioni dell'utente nel sistema e assicurarsi che siano sincronizzate con i dati memorizzati nel file users.txt.
 
-# Sviluppo
-Abbiamo utilizzato il pattern MVC per garantire che la logica di business fosse separata dalla presentazione, permettendo una gestione più chiara delle funzionalità e una facile manutenzione del codice.
-Registrazione: Ho implementato la registrazione con un modulo che permette di inserire un nome utente, una password e un'email. Viene effettuato un controllo per garantire che l'email sia unica e che la password sia sicura.
+Ho implementato la registrazione con un modulo che permette di inserire un nome utente, una password e un'email. Viene effettuato un controllo per garantire che l'email sia unica e che la password sia sicura.
 Autenticazione: Ho creato un sistema di login che verifica le credenziali dell'utente (nome utente e password) e consente l'accesso solo se le credenziali sono corrette.
 Gestione Profilo: Dopo il login, l'utente può visualizzare e modificare il proprio profilo. Le modifiche al profilo vengono salvate nel sistema e aggiornate nella UI in tempo reale. Ho implementato l'interfaccia grafica in modo che l'utente possa facilmente interagire con i suoi dati, come la modifica del username, della password o dell'email.
 
-## Design dettagliato
 ```mermaid
 classDiagram
     class UserController {
