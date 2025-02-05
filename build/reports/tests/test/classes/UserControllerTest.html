@@ -3,17 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="x-ua-compatible" content="IE=edge"/>
-<title>Test results - Class ReservationControllerTest</title>
+<title>Test results - Class UserControllerTest</title>
 <link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
 <link href="../css/style.css" rel="stylesheet" type="text/css"/>
 <script src="../js/report.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="content">
-<h1>Class ReservationControllerTest</h1>
+<h1>Class UserControllerTest</h1>
 <div class="breadcrumbs">
 <a href="../index.html">all</a> &gt; 
-<a href="../packages/default-package.html">default-package</a> &gt; ReservationControllerTest</div>
+<a href="../packages/default-package.html">default-package</a> &gt; UserControllerTest</div>
 <div id="summary">
 <table>
 <tr>
@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">8</div>
+<div class="counter">4</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.079s</div>
+<div class="counter">0.016s</div>
 <p>duration</p>
 </div>
 </td>
@@ -78,43 +78,23 @@
 </tr>
 </thead>
 <tr>
-<td class="success">testAddReservationSuccess()</td>
-<td class="success">0.003s</td>
+<td class="success">testFindUserByEmail()</td>
+<td class="success">0.002s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">testAddReservationWasherNotAvailable()</td>
-<td class="success">0.007s</td>
+<td class="success">testRegisterUser()</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">testCancelReservation()</td>
+<td class="success">testResetPassword()</td>
 <td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">testCancelReservationNotExist()</td>
-<td class="success">0.024s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testGetAvailableWashers()</td>
+<td class="success">testValidateUser()</td>
 <td class="success">0.002s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testIsWasherAvailable()</td>
-<td class="success">0.002s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testModifyReservation()</td>
-<td class="success">0.006s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testModifyReservationCannotModify()</td>
-<td class="success">0.031s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -122,17 +102,33 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>La prenotazione non esiste!
-Lavatrice non disponibile!
-Prenotazioni salvate con successo su reservation.txt
-Non Ã¨ possibile modificare la prenotazione (fuori tempo massimo).
-Prenotazioni salvate con successo su reservation.txt
-Prenotazione modificata con successo!
-Prenotazioni salvate con successo su reservation.txt
-Prenotazioni salvate con successo su reservation.txt
-Prenotazioni salvate con successo su reservation.txt
-Prenotazioni salvate con successo su reservation.txt
-Prenotazioni salvate con successo su reservation.txt
+<pre>Utenti caricati dal file:
+testUser - testEmail@example.com - testPassword123
+testUser3 - testEmail3@example.com - testPassword123
+testUser4 - testEmail4@example.com - newPassword123
+testUser2 - testEmail2@example.com - testPassword123
+Ergisaxhika - ergisa@gmail.com - ergisa123
+Utenti caricati dal file:
+testUser - testEmail@example.com - testPassword123
+testUser3 - testEmail3@example.com - testPassword123
+testUser4 - testEmail4@example.com - newPassword123
+testUser2 - testEmail2@example.com - testPassword123
+Ergisaxhika - ergisa@gmail.com - ergisa123
+testUserA - testEmailA@example.com - testPassword123
+Utenti caricati dal file:
+testUser - testEmail@example.com - testPassword123
+testUser3 - testEmail3@example.com - testPassword123
+testUser4 - testEmail4@example.com - newPassword123
+testUser2 - testEmail2@example.com - testPassword123
+Ergisaxhika - ergisa@gmail.com - ergisa123
+testUserA - testEmailA@example.com - testPassword123
+Utenti caricati dal file:
+testUser - testEmail@example.com - testPassword123
+testUser3 - testEmail3@example.com - testPassword123
+testUser4 - testEmail4@example.com - newPassword123
+testUser2 - testEmail2@example.com - testPassword123
+Ergisaxhika - ergisa@gmail.com - ergisa123
+testUserA - testEmailA@example.com - testPassword123
 </pre>
 </span>
 </div>

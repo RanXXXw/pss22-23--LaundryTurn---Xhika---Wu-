@@ -1,80 +1,44 @@
-Utenti caricati dal file:
-tttt - ttt - ttt
-*Manuel123 - manuel@gmail.com - manuel123
-a - ciao - aa
-'123123 - 123123@gmail.com - 123456789
-"prova - prova@gmail.com - ergisa
-123 - 123@gmail.com - 12345
-$ergisaxhika - ergisa@gmail.com - j
-aa - aa - aa
-*username - username@gmail.com - password
-*provaprova - prova@gmail.com - prova1234
-provaprova1 - pr - provaprova
-'test123 - test123@gmail.com - test123
-!erg - ergisa@gmail.com - ergisa
-aaaa - a@gmail.com - a123456
-*Total reservations for logged in user: 1
 La prenotazione non esiste!
-Utenti caricati dal file:
-tttt - ttt - ttt
-*Manuel123 - manuel@gmail.com - manuel123
-a - ciao - aa
-'123123 - 123123@gmail.com - 123456789
-"prova - prova@gmail.com - ergisa
-123 - 123@gmail.com - 12345
-$ergisaxhika - ergisa@gmail.com - j
-aa - aa - aa
-*username - username@gmail.com - password
-*provaprova - prova@gmail.com - prova1234
-provaprova1 - pr - provaprova
-'test123 - test123@gmail.com - test123
-!erg - ergisa@gmail.com - ergisa
-aaaa - a@gmail.com - a123456
-*Total reservations for logged in user: 1
-Utenti caricati dal file:
-tttt - ttt - ttt
-*Manuel123 - manuel@gmail.com - manuel123
-a - ciao - aa
-'123123 - 123123@gmail.com - 123456789
-"prova - prova@gmail.com - ergisa
-123 - 123@gmail.com - 12345
-$ergisaxhika - ergisa@gmail.com - j
-aa - aa - aa
-*username - username@gmail.com - password
-*provaprova - prova@gmail.com - prova1234
-provaprova1 - pr - provaprova
-'test123 - test123@gmail.com - test123
-!erg - ergisa@gmail.com - ergisa
-aaaa - a@gmail.com - a123456
-*Total reservations for logged in user: 1
 Lavatrice non disponibile!
-Utenti caricati dal file:
-tttt - ttt - ttt
-*Manuel123 - manuel@gmail.com - manuel123
-a - ciao - aa
-'123123 - 123123@gmail.com - 123456789
-"prova - prova@gmail.com - ergisa
-123 - 123@gmail.com - 12345
-$ergisaxhika - ergisa@gmail.com - j
-aa - aa - aa
-*username - username@gmail.com - password
-*provaprova - prova@gmail.com - prova1234
-provaprova1 - pr - provaprova
-'test123 - test123@gmail.com - test123
-!erg - ergisa@gmail.com - ergisa
-aaaa - a@gmail.com - a123456
-*Total reservations for logged in user: 1
-*Total reservations for logged in user: 0
+6Prenotazioni salvate con successo su reservation.txt
+FNon Ã¨ possibile modificare la prenotazione (fuori tempo massimo).
 6Prenotazioni salvate con successo su reservation.txt
 'Prenotazione modificata con successo!
 6Prenotazioni salvate con successo su reservation.txt
-PError processing line: testuser 2 February 2025 - Washer1 dalle 1:24 alle 2:24
-*Total reservations for logged in user: 0
 6Prenotazioni salvate con successo su reservation.txt
-PError processing line: testuser 2 February 2025 - Washer1 dalle 0:24 alle 1:24
-*Total reservations for logged in user: 0
 6Prenotazioni salvate con successo su reservation.txt
-	PError processing line: testuser 2 February 2025 - Washer1 dalle 0:24 alle 1:24
-	*Total reservations for logged in user: 0
 	6Prenotazioni salvate con successo su reservation.txt
 	6Prenotazioni salvate con successo su reservation.txt
+
+Utenti caricati dal file:
+
+4testUser - testEmail@example.com - testPassword123
+
+6testUser3 - testEmail3@example.com - testPassword123
+
+5testUser4 - testEmail4@example.com - newPassword123
+
+6testUser2 - testEmail2@example.com - testPassword123
+
+,Ergisaxhika - ergisa@gmail.com - ergisa123
+Utenti caricati dal file:
+4testUser - testEmail@example.com - testPassword123
+6testUser3 - testEmail3@example.com - testPassword123
+5testUser4 - testEmail4@example.com - newPassword123
+6testUser2 - testEmail2@example.com - testPassword123
+,Ergisaxhika - ergisa@gmail.com - ergisa123
+6testUserA - testEmailA@example.com - testPassword123
+Utenti caricati dal file:
+4testUser - testEmail@example.com - testPassword123
+6testUser3 - testEmail3@example.com - testPassword123
+5testUser4 - testEmail4@example.com - newPassword123
+6testUser2 - testEmail2@example.com - testPassword123
+,Ergisaxhika - ergisa@gmail.com - ergisa123
+6testUserA - testEmailA@example.com - testPassword123
+Utenti caricati dal file:
+4testUser - testEmail@example.com - testPassword123
+6testUser3 - testEmail3@example.com - testPassword123
+5testUser4 - testEmail4@example.com - newPassword123
+6testUser2 - testEmail2@example.com - testPassword123
+,Ergisaxhika - ergisa@gmail.com - ergisa123
+6testUserA - testEmailA@example.com - testPassword123

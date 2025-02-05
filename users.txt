@@ -3,3 +3,4 @@ testUser3,testPassword123,testEmail3@example.com
 testUser4,newPassword123,testEmail4@example.com
 testUser2,testPassword123,testEmail2@example.com
 Ergisaxhika,ergisa123,ergisa@gmail.com
+testUserA,testPassword123,testEmailA@example.com

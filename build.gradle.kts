@@ -26,3 +26,17 @@ application {
     // Define the main class for the application
     mainClass.set("Main")
 }
+
+tasks.jar {
+    manifest {
+        attributes(
+            "Main-Class" to application.mainClass.get() // Corretto per Kotlin DSL
+        )
+    }
+
+    // Aggiunta di tutte le dipendenze al Fat JAR
+    from({
+        configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }
+    })
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="UserControllerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-02-05T08:03:30" hostname="DESKTOP-619298R" time="0.018">
+  <properties/>
+  <testcase name="testRegisterUser()" classname="UserControllerTest" time="0.008"/>
+  <testcase name="testFindUserByEmail()" classname="UserControllerTest" time="0.002"/>
+  <testcase name="testResetPassword()" classname="UserControllerTest" time="0.004"/>
+  <testcase name="testValidateUser()" classname="UserControllerTest" time="0.002"/>
+  <system-out><![CDATA[Utenti caricati dal file:
+testUser - testEmail@example.com - testPassword123
+testUser3 - testEmail3@example.com - testPassword123
+testUser4 - testEmail4@example.com - newPassword123
+testUser2 - testEmail2@example.com - testPassword123
+Ergisaxhika - ergisa@gmail.com - ergisa123
+Utenti caricati dal file:
+testUser - testEmail@example.com - testPassword123
+testUser3 - testEmail3@example.com - testPassword123
+testUser4 - testEmail4@example.com - newPassword123
+testUser2 - testEmail2@example.com - testPassword123
+Ergisaxhika - ergisa@gmail.com - ergisa123
+testUserA - testEmailA@example.com - testPassword123
+Utenti caricati dal file:
+testUser - testEmail@example.com - testPassword123
+testUser3 - testEmail3@example.com - testPassword123
+testUser4 - testEmail4@example.com - newPassword123
+testUser2 - testEmail2@example.com - testPassword123
+Ergisaxhika - ergisa@gmail.com - ergisa123
+testUserA - testEmailA@example.com - testPassword123
+Utenti caricati dal file:
+testUser - testEmail@example.com - testPassword123
+testUser3 - testEmail3@example.com - testPassword123
+testUser4 - testEmail4@example.com - newPassword123
+testUser2 - testEmail2@example.com - testPassword123
+Ergisaxhika - ergisa@gmail.com - ergisa123
+testUserA - testEmailA@example.com - testPassword123
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

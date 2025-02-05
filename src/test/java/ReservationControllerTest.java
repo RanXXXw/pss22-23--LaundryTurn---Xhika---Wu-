@@ -22,12 +22,17 @@ public class ReservationControllerTest {
     @BeforeEach
     public void setUp() {
         // Creazione utente e lavatrice
-        user = new User("testuser", "password", null);
+        user = new User("testUser", "testPassword123", "testEmail@example.com");
         washer1 = new Washer("Washer1", true);
         washer2 = new Washer("Washer2", true);
 
         // Inizializza controller
-        reservationController = new ReservationController(user);
+        reservationController = new ReservationController(user) {
+            @Override
+            public void loadReservationsFromFile() {
+                // Non caricare dati dal file
+            }
+        };
     }
 
     @Test

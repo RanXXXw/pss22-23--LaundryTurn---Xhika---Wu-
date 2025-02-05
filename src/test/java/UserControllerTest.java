@@ -16,7 +16,7 @@ public class UserControllerTest {
     @Test
     public void testRegisterUser() {
         // Test di registrazione
-        String result = userController.registerUser("testUser", "testPassword123", "testEmail@example.com");
+        String result = userController.registerUser("testUserA", "testPassword123", "testEmailA@example.com");
         assertEquals("Registrazione avvenuta con successo!", result);
 
         // Verifica che l'utente sia stato aggiunto
